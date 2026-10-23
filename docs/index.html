@@ -110,8 +110,8 @@
     <div class="note">
       <h2>Source gaps</h2>
       <ul>
-        <li><code>actors.md</code> was not in the repo. Build, users, and runs are from the tracker draft only.</li>
-        <li>The draft says the 24 Oct 10:00 UK routine is meant to publish 5 actors. It does not name the five. Rows dated 2026-10-24: <span id="oct24">…</span></li>
+        <li>24 Oct 10:00 UK batch, in order: uk-ofgem-price-cap, amazon-uk-bestsellers, ebay-uk-listings-prices, uk-jobs-feed, uk-planning-applications. Status: Scheduled 24 Oct 10:00 UK. Rows dated 2026-10-24: <span id="oct24">…</span></li>
+        <li><code>gtrends-proxy-test</code> stays an internal private test and is not scheduled.</li>
         <li><code>gtrends-proxy-test</code> pricing in the draft: No pricing set. Store URL is blank where the draft left it blank.</li>
         <li>Wording conflicts with the public doc pages (prices match; the table keeps the draft sentence): tenders include EU TED in the draft and call it optional in <code>docs/uk-public-tenders-feed.md</code>; Google Trends is UK and up to 5 keywords in the draft, and “UK and any country” with no cap in <code>docs/uk-google-trends.md</code>; Companies House alerts in the draft are liquidation and dissolution, and the doc page adds administration alerts for a watchlist. <code>docs/uk-google-trends.md</code> also says error and no-data rows are free. The result-row price is the same ($0.002).</li>
       </ul>
@@ -159,7 +159,7 @@
 
     function statusRank(row) {
       if (row.status === "live") return 0;
-      if (String(row.status).startsWith("scheduled")) return 1;
+      if (String(row.status).toLowerCase().startsWith("scheduled")) return 1;
       return 2;
     }
 
@@ -219,7 +219,7 @@
 
     function pillClass(status) {
       if (status === "live") return "live";
-      if (String(status).startsWith("scheduled")) return "scheduled";
+      if (String(status).toLowerCase().startsWith("scheduled")) return "scheduled";
       return "private";
     }
 
@@ -305,7 +305,7 @@
 
     function renderSummary() {
       const live = actors.filter((row) => row.status === "live").length;
-      const scheduled = actors.filter((row) => String(row.status).startsWith("scheduled")).length;
+      const scheduled = actors.filter((row) => String(row.status).toLowerCase().startsWith("scheduled")).length;
       const priv = actors.filter((row) => row.status === "private test").length;
       const dated = actors.filter((row) => row.date === "2026-10-24");
       const counts = document.getElementById("counts");

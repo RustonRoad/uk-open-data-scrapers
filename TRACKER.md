@@ -1,8 +1,6 @@
 # Actor tracker
 
-Actor rows for the seaf999ield Apify account. [docs/actors.json](docs/actors.json) is the source of truth. The table below mirrors those rows. The tracker draft labels the snapshot: data from the Apify API, 23 Oct 2026, 12:20 UK.
-
-`actors.md` is not in this repository (checked the git tree on `main`). Build, users, and runs are copied from the tracker draft only.
+Actor rows for the seaf999ield Apify account. [docs/actors.json](docs/actors.json) is the source of truth. The table below mirrors those rows. Pricing, build, users, and runs are from the tracker draft (Apify API, 23 Oct 2026, 12:20 UK).
 
 ## How to update after publish day
 
@@ -14,16 +12,16 @@ Keep these JSON fields and the table columns on the same values: `status`, `stat
 
 Status labels in the table:
 
-- `live` — draft status `Public`, planned publish `Already public`.
-- `scheduled` plus the draft date label — draft status `Private, scheduled …`.
-- `private test` — draft status `Private, unscheduled`, planned publish `Not scheduled`. The draft's words are `Private, unscheduled`. It calls `gtrends-proxy-test` an internal prototype. `private test` is the column label for that draft status.
+- `live` — public actors. Planned publish `Already public`.
+- `Scheduled 24 Oct 10:00 UK` — the 24 Oct 10:00 UK batch, in this order: `uk-ofgem-price-cap`, `amazon-uk-bestsellers`, `ebay-uk-listings-prices`, `uk-jobs-feed`, `uk-planning-applications`. `date` is `2026-10-24`. Planned publish is `24 Oct 10:00 UK`.
+- `scheduled 25 Oct 2026` — `uk-nhs-prescribing-data`.
+- `scheduled 26 Oct 2026` — `biotech-catalyst-tracker`.
+- `private test` — `gtrends-proxy-test` only. Internal prototype. Planned publish `Not scheduled`. It is not in the 24 Oct batch.
 
 A blank cell means the draft had no value.
 
 ## Gaps and conflicts
 
-- **`actors.md` missing.** No file of that name was found, so build, users, and runs were not cross-checked.
-- **24 Oct list.** The draft says the 24 Oct 10:00 UK routine is meant to publish 5 actors. The rows name only `amazon-uk-bestsellers` for that date (`date` `2026-10-24`, planned publish `24 Oct 2026, 10:00 UK`). The other four are not named. The draft leaves `ebay-uk-listings-prices`, `uk-jobs-feed`, `uk-planning-applications`, `uk-ofgem-price-cap`, and `gtrends-proxy-test` as not scheduled. They stay unnamed for 24 Oct in [ROADMAP.md](ROADMAP.md).
 - **Pricing not set.** `gtrends-proxy-test` is `No pricing set` in the draft.
 - **Store URL blank** for every actor whose draft `store` is empty (the eight that are not public). The draft screen shows "Not public yet" when that URL is empty. The cell here is blank.
 - **Prices vs per-actor docs.** For the 10 public actors, `docs/<name>.md` states per-1,000 prices equal to these per-event prices times 1,000, including the separate alert events. No price figure disagreed. `docs/uk-google-trends.md` also says error and no-data rows are free. The draft price line does not mention that. The result-row price is the same on both sides (`$0.002`, `$2` per 1,000).
@@ -45,7 +43,7 @@ The draft says users and runs are lifetime totals from Apify and include the acc
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | uk-public-tenders-feed | UK Tenders Scraper & API: Find a Tender, Contracts Finder, TED | Pulls new UK public-sector tenders and contract awards from Find a Tender, Contracts Finder and EU TED into one dataset. | live | Public | Already public | Tender notice $0.003 | 0.2.1 | 2 | 15 | 20 Oct 2026 12:29 | 23 Oct 2026 11:36 | https://apify.com/seaf999ield/uk-public-tenders-feed |
 | uk-visa-sponsor-register-monitor | UK Visa Sponsor Register Scraper & Monitor (Home Office) | Watches the Home Office licensed sponsor register and reports employers added, removed or downgraded since the last run. | live | Public | Already public | Sponsor change $0.01; Snapshot row $0.001; Companies House enriched row $0.004 | 0.2.4 | 2 | 9 | 20 Oct 2026 12:29 | 23 Oct 2026 10:05 | https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor |
-| ebay-uk-listings-prices | eBay UK Listings & Price Comps (GBP) | Lists live ebay.co.uk listings for a keyword with £ prices and a median/range price-comp summary. | private test | Private, unscheduled | Not scheduled | Listing row $0.002; Price summary $0.01 | 0.2.1 | 1 | 7 | 20 Oct 2026 13:48 | 23 Oct 2026 09:45 |  |
+| ebay-uk-listings-prices | eBay UK Listings & Price Comps (GBP) | Lists live ebay.co.uk listings for a keyword with £ prices and a median/range price-comp summary. | Scheduled 24 Oct 10:00 UK | Scheduled 24 Oct 10:00 UK | 24 Oct 10:00 UK | Listing row $0.002; Price summary $0.01 | 0.2.1 | 1 | 7 | 20 Oct 2026 13:48 | 23 Oct 2026 09:45 |  |
 | gtrends-proxy-test | Google Trends proxy-cost probe (internal prototype) | Internal test measuring Google Trends success rate and proxy cost; not meant for the Store. | private test | Private, unscheduled | Not scheduled | No pricing set | 0.1.2 | 1 | 8 | 20 Oct 2026 13:53 | 20 Oct 2026 14:04 |  |
 | uk-google-trends | Google Trends Scraper UK: Interest, Regions & Related Queries | Fetches Google Trends interest over time, by UK region and related queries for up to 5 keywords. | live | Public | Already public | Trends result row $0.002 | 0.1.6 | 2 | 8 | 20 Oct 2026 14:22 | 23 Oct 2026 10:05 | https://apify.com/seaf999ield/uk-google-trends |
 | uk-companies-house-feed | UK Companies House Scraper: New Companies Feed & Alerts | Daily feed of newly incorporated UK companies plus liquidation and dissolution alerts from Companies House. | live | Public | Already public | Company record $0.003; Status change alert $0.01 | 0.1.5 | 2 | 10 | 20 Oct 2026 14:50 | 23 Oct 2026 10:05 | https://apify.com/seaf999ield/uk-companies-house-feed |
@@ -55,9 +53,9 @@ The draft says users and runs are lifetime totals from Apify and include the acc
 | uk-food-hygiene-ratings | UK Food Hygiene Ratings Scraper & New Restaurant Leads | Searches FSA food hygiene ratings and flags newly listed food businesses and rating changes. | live | Public | Already public | Establishment row $0.002; New business lead $0.005; Rating change $0.01 | 0.1.4 | 2 | 6 | 20 Oct 2026 15:34 | 23 Oct 2026 10:05 | https://apify.com/seaf999ield/uk-food-hygiene-ratings |
 | uk-gazette-insolvency-notices | UK Insolvency Notices Scraper: Gazette Winding-Up Feed | Daily feed of UK winding-up petitions, administrations and liquidations from The Gazette. | live | Public | Already public | Notice row $0.003; New notice $0.01 | 0.1.8 | 2 | 11 | 20 Oct 2026 15:52 | 23 Oct 2026 10:05 | https://apify.com/seaf999ield/uk-gazette-insolvency-notices |
 | uk-product-safety-recalls | UK Product Recalls Scraper: OPSS, FSA & MHRA Safety Alerts | Combines OPSS product recalls, FSA food alerts and MHRA medicine and device alerts in one feed. | live | Public | Already public | Alert row $0.002; New alert $0.008 | 0.1.4 | 2 | 5 | 20 Oct 2026 15:54 | 23 Oct 2026 10:05 | https://apify.com/seaf999ield/uk-product-safety-recalls |
-| amazon-uk-bestsellers | Amazon UK Best Sellers, Movers & Shakers & New Releases Tracker | Scrapes Amazon UK Best Sellers, Movers & Shakers and New Releases lists and flags rank changes. | scheduled 24 Oct 2026, 10:00 UK | Private, scheduled 24 Oct | 24 Oct 2026, 10:00 UK | Best seller row $0.002; Rank change $0.005 | 0.1.3 | 1 | 4 | 23 Oct 2026 09:34 | 23 Oct 2026 09:38 |  |
-| uk-ofgem-price-cap | UK Ofgem Energy Price Cap: Rates by Region + Forecast | Returns official Ofgem energy price cap rates and standing charges for every GB region, with optional forecasts. | private test | Private, unscheduled | Not scheduled | Price check $0.03; Actor Start $0.00005 | 0.1.1 | 1 | 1 | 23 Oct 2026 09:43 | 23 Oct 2026 09:45 |  |
-| uk-jobs-feed | UK Jobs Feed: NHS Jobs, DWP Find a Job & Company Careers Pages | One de-duplicated UK jobs feed from NHS Jobs, DWP Find a Job and Greenhouse, Lever and Workable boards. | private test | Private, unscheduled | Not scheduled | Job row $0.002; New job $0.005 | 0.1.6 | 1 | 6 | 23 Oct 2026 09:50 | 23 Oct 2026 09:56 |  |
-| uk-planning-applications | UK Planning Applications Scraper: Council Planning Data & Leads | Collects new UK planning applications from council portals, filterable by council, date and keyword. | private test | Private, unscheduled | Not scheduled | Planning application row $0.003; New planning application $0.008 | 0.1.3 | 1 | 6 | 23 Oct 2026 10:08 | 23 Oct 2026 10:22 |  |
+| amazon-uk-bestsellers | Amazon UK Best Sellers, Movers & Shakers & New Releases Tracker | Scrapes Amazon UK Best Sellers, Movers & Shakers and New Releases lists and flags rank changes. | Scheduled 24 Oct 10:00 UK | Scheduled 24 Oct 10:00 UK | 24 Oct 10:00 UK | Best seller row $0.002; Rank change $0.005 | 0.1.3 | 1 | 4 | 23 Oct 2026 09:34 | 23 Oct 2026 09:38 |  |
+| uk-ofgem-price-cap | UK Ofgem Energy Price Cap: Rates by Region + Forecast | Returns official Ofgem energy price cap rates and standing charges for every GB region, with optional forecasts. | Scheduled 24 Oct 10:00 UK | Scheduled 24 Oct 10:00 UK | 24 Oct 10:00 UK | Price check $0.03; Actor Start $0.00005 | 0.1.1 | 1 | 1 | 23 Oct 2026 09:43 | 23 Oct 2026 09:45 |  |
+| uk-jobs-feed | UK Jobs Feed: NHS Jobs, DWP Find a Job & Company Careers Pages | One de-duplicated UK jobs feed from NHS Jobs, DWP Find a Job and Greenhouse, Lever and Workable boards. | Scheduled 24 Oct 10:00 UK | Scheduled 24 Oct 10:00 UK | 24 Oct 10:00 UK | Job row $0.002; New job $0.005 | 0.1.6 | 1 | 6 | 23 Oct 2026 09:50 | 23 Oct 2026 09:56 |  |
+| uk-planning-applications | UK Planning Applications Scraper: Council Planning Data & Leads | Collects new UK planning applications from council portals, filterable by council, date and keyword. | Scheduled 24 Oct 10:00 UK | Scheduled 24 Oct 10:00 UK | 24 Oct 10:00 UK | Planning application row $0.003; New planning application $0.008 | 0.1.3 | 1 | 6 | 23 Oct 2026 10:08 | 23 Oct 2026 10:22 |  |
 | uk-nhs-prescribing-data | UK NHS Prescribing Data: GP Drug Trends for All 4 Nations | Monthly GP prescribing figures for any drug across all four UK nations, with biggest movers. | scheduled 25 Oct 2026 | Private, scheduled 25 Oct | 25 Oct 2026 | Actor Start $0.02; Trend row $0.002; Mover alert $0.01 | 0.1.3 | 1 | 1 | 23 Oct 2026 11:06 | 23 Oct 2026 11:11 |  |
 | biotech-catalyst-tracker | Biotech Catalyst Tracker: FDA & MHRA Approvals, Trials, AdComs | Feed of FDA and MHRA approvals, FDA rejections, advisory meetings and clinical-trial changes from official sources. | scheduled 26 Oct 2026 | Private, scheduled 26 Oct | 26 Oct 2026 | Catalyst row $0.003 | 0.1.3 | 1 | 3 | 23 Oct 2026 11:28 | 23 Oct 2026 11:33 |  |
