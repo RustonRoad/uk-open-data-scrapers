@@ -1,0 +1,25 @@
+{
+  "title": "Weekly road fuel prices",
+  "details": {
+    "attachments": [
+      {
+        "title": "Weekly road fuel prices (Excel)",
+        "url": "https://assets.publishing.service.gov.uk/media/example/fuel.xlsx",
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "filename": "fuel.xlsx"
+      },
+      {
+        "title": "Weekly road fuel prices (CSV) 2003 to 2017",
+        "url": "https://assets.publishing.service.gov.uk/media/example/fuel-2003.csv",
+        "content_type": "text/csv",
+        "filename": "fuel-2003.csv"
+      },
+      {
+        "title": "Weekly road fuel prices (CSV) 2018 to 2026",
+        "url": "https://assets.publishing.service.gov.uk/media/example/fuel-2018.csv",
+        "content_type": "text/csv",
+        "filename": "fuel-2018.csv"
+      }
+    ]
+  }
+}

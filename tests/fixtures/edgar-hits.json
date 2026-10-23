@@ -1,0 +1,48 @@
+{
+  "hits": {
+    "total": {"value": 3, "relation": "eq"},
+    "hits": [
+      {
+        "_id": "0001193125-26-428314:d124492dex991.htm",
+        "_source": {
+          "ciks": ["0001400118"],
+          "file_date": "2026-10-22",
+          "display_names": ["Sagimet Biosciences Inc.  (SGMT)  (CIK 0001400118)"],
+          "root_forms": ["8-K"],
+          "form": "8-K",
+          "adsh": "0001193125-26-428314",
+          "sics": ["2834"],
+          "biz_locations": ["Foster City, CA"],
+          "items": ["7.01", "9.01"],
+          "file_type": "EX-99.1"
+        }
+      },
+      {
+        "_id": "0001193125-26-428314:primary.htm",
+        "_source": {
+          "ciks": ["0001400118"],
+          "file_date": "2026-10-22",
+          "display_names": ["Sagimet Biosciences Inc.  (SGMT)  (CIK 0001400118)"],
+          "form": "8-K",
+          "adsh": "0001193125-26-428314",
+          "sics": ["2834"],
+          "biz_locations": ["Foster City, CA"],
+          "items": ["8.01"]
+        }
+      },
+      {
+        "_id": "0001193125-26-000001:food.htm",
+        "_source": {
+          "ciks": ["0000000001"],
+          "file_date": "2026-10-22",
+          "display_names": ["Example Foods Inc.  (FOOD)  (CIK 0000000001)"],
+          "form": "8-K",
+          "adsh": "0001193125-26-000001",
+          "sics": ["2090"],
+          "biz_locations": ["Chicago, IL"],
+          "items": ["8.01"]
+        }
+      }
+    ]
+  }
+}

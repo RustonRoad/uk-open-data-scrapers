@@ -1,0 +1,72 @@
+# Example only. It does not run on a schedule, so a fork does not hammer
+# Contracts Finder or Find a Tender. Run it from the Actions tab
+# (workflow_dispatch) when you want a CSV committed.
+#
+# To run it every weekday morning, add a schedule block yourself and keep
+# the limit small:
+#
+#   on:
+#     schedule:
+#       - cron: "0 7 * * 1-5"
+#     workflow_dispatch:
+#
+# That cron is UTC. A daily run of one small search is the most this
+# template should do. For a fuller feed, filters and alerts, use the hosted
+# actor: https://apify.com/seaf999ield/uk-public-tenders-feed
+
+name: daily-tenders-example
+
+on:
+  workflow_dispatch:
+    inputs:
+      keyword:
+        description: Keyword to search
+        required: true
+        default: roofing
+      region:
+        description: Region, for example London
+        required: true
+        default: London
+      days:
+        description: How many days back
+        required: true
+        default: "7"
+
+permissions:
+  contents: write
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ukopendata
+        run: pip install .
+      - name: Search tenders
+        env:
+          KEYWORD: ${{ github.event.inputs.keyword }}
+          REGION: ${{ github.event.inputs.region }}
+          DAYS: ${{ github.event.inputs.days }}
+        run: |
+          mkdir -p examples/output
+          ukopendata tenders \
+            --keyword "$KEYWORD" \
+            --region "$REGION" \
+            --days "$DAYS" \
+            --limit 50 \
+            --format csv \
+            --output examples/output/tenders.csv
+      - name: Commit the CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add examples/output/tenders.csv
+          if git diff --cached --quiet; then
+            echo "No change in the CSV."
+          else
+            git commit -m "Update example tenders CSV"
+            git push
+          fi
