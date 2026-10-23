@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apify actor tracker</title>
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --ink: #1c1916;
+      --muted: #5e584e;
+      --line: #ddd4c4;
+      --paper: #fffdf8;
+      --head: #241f1a;
+      --head-ink: #f6f1e8;
+      --live: #1d6b42;
+      --live-bg: #e4f3ea;
+      --sched: #1d4f86;
+      --sched-bg: #e6eef8;
+      --priv: #8a5610;
+      --priv-bg: #f8efd8;
+      --warn-bg: #fff6e8;
+      --warn-line: #e4c48a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.45 "Segoe UI", system-ui, sans-serif;
+    }
+    header {
+      background: var(--head);
+      color: var(--head-ink);
+      padding: 28px 28px 22px;
+    }
+    header h1 { margin: 0 0 6px; font-size: 28px; font-weight: 650; letter-spacing: -0.02em; }
+    header p { margin: 0; max-width: 46rem; color: #d9d0c3; }
+    main { padding: 20px 28px 48px; }
+    .meta { color: var(--muted); margin: 0 0 14px; }
+    .counts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+    .counts li {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-variant-numeric: tabular-nums;
+    }
+    .note {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 0 0 14px;
+      max-width: 62rem;
+    }
+    .note h2 { margin: 0 0 6px; font-size: 15px; }
+    .note ul { margin: 0; padding-left: 1.1rem; }
+    .note li + li { margin-top: 6px; }
+    .toolbar { display: flex; gap: 12px; align-items: center; margin: 0 0 10px; }
+    label { color: var(--muted); }
+    input[type="search"] {
+      font: inherit;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--paper);
+      min-width: 16rem;
+    }
+    .wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+    table { border-collapse: collapse; width: max-content; min-width: 100%; }
+    th, td { padding: 8px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { position: sticky; top: 0; background: #f7f1e6; z-index: 1; }
+    th button {
+      all: unset;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 650;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    th button:focus-visible { outline: 2px solid var(--sched); outline-offset: 2px; }
+    tbody tr:hover { background: #fbf8f1; }
+    td.what { max-width: 26rem; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .pill.live { color: var(--live); background: var(--live-bg); }
+    .pill.scheduled { color: var(--sched); background: var(--sched-bg); }
+    .pill.private { color: var(--priv); background: var(--priv-bg); }
+    a { color: var(--sched); }
+    #error { color: #8d1d1d; font-weight: 650; }
+    footer { color: var(--muted); margin-top: 14px; max-width: 46rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Apify actor tracker</h1>
+    <p>seaf999ield actors. The page reads <code>actors.json</code> in this folder. Edit that file after each publish day, then match <code>TRACKER.md</code> to it.</p>
+  </header>
+  <main>
+    <p class="meta" id="asof"></p>
+    <ul class="counts" id="counts"></ul>
+    <div class="note">
+      <h2>Source gaps</h2>
+      <ul>
+        <li><code>actors.md</code> was not in the repo. Build, users, and runs are from the tracker draft only.</li>
+        <li>The draft says the 24 Oct 10:00 UK routine is meant to publish 5 actors. It does not name the five. Rows dated 2026-10-24: <span id="oct24">…</span></li>
+        <li><code>gtrends-proxy-test</code> pricing in the draft: No pricing set. Store URL is blank where the draft left it blank.</li>
+        <li>Wording conflicts with the public doc pages (prices match; the table keeps the draft sentence): tenders include EU TED in the draft and call it optional in <code>docs/uk-public-tenders-feed.md</code>; Google Trends is UK and up to 5 keywords in the draft, and “UK and any country” with no cap in <code>docs/uk-google-trends.md</code>; Companies House alerts in the draft are liquidation and dissolution, and the doc page adds administration alerts for a watchlist. <code>docs/uk-google-trends.md</code> also says error and no-data rows are free. The result-row price is the same ($0.002).</li>
+      </ul>
+    </div>
+    <div class="toolbar">
+      <label for="q">Filter</label>
+      <input id="q" type="search" placeholder="Name, title, or what it does" autocomplete="off">
+    </div>
+    <p id="error" hidden></p>
+    <div class="wrap">
+      <table>
+        <thead>
+          <tr id="head"></tr>
+        </thead>
+        <tbody id="body"></tbody>
+      </table>
+    </div>
+    <footer>
+      <p id="showing"></p>
+      <p>Users and runs are lifetime totals from the draft and include this account's own test runs. Build is the version tagged latest. Data only. No investment advice.</p>
+    </footer>
+  </main>
+  <script>
+    const COLUMNS = [
+      { key: "name", label: "Actor", type: "text" },
+      { key: "title", label: "Title", type: "text" },
+      { key: "what", label: "What it does", type: "text" },
+      { key: "status", label: "Status", type: "status" },
+      { key: "statusSource", label: "Status in source", type: "text" },
+      { key: "plannedPublish", label: "Planned publish", type: "planned" },
+      { key: "pricing", label: "Per-event pricing (USD)", type: "text" },
+      { key: "build", label: "Build", type: "version" },
+      { key: "users", label: "Users", type: "number" },
+      { key: "runs", label: "Runs", type: "number" },
+      { key: "created", label: "Created (UK)", type: "when" },
+      { key: "modified", label: "Modified (UK)", type: "when" },
+      { key: "store", label: "Store", type: "text" }
+    ];
+
+    const MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+
+    let actors = [];
+    let sortKey = "status";
+    let sortDir = 1;
+
+    function statusRank(row) {
+      if (row.status === "live") return 0;
+      if (String(row.status).startsWith("scheduled")) return 1;
+      return 2;
+    }
+
+    function whenValue(value) {
+      const match = /^(\d{1,2}) ([A-Z][a-z]{2}) (\d{4}) (\d{2}):(\d{2})$/.exec(value || "");
+      if (!match || MONTHS[match[2]] === undefined) return null;
+      return Date.UTC(+match[3], MONTHS[match[2]], +match[1], +match[4], +match[5]);
+    }
+
+    function versionValue(value) {
+      return String(value || "").split(".").map((part) => parseInt(part, 10) || 0);
+    }
+
+    function compareVersions(a, b) {
+      const av = versionValue(a);
+      const bv = versionValue(b);
+      const length = Math.max(av.length, bv.length);
+      for (let i = 0; i < length; i += 1) {
+        const diff = (av[i] || 0) - (bv[i] || 0);
+        if (diff) return diff;
+      }
+      return 0;
+    }
+
+    function compare(a, b) {
+      const column = COLUMNS.find((item) => item.key === sortKey);
+      const type = column ? column.type : "text";
+      let diff = 0;
+      if (type === "number") {
+        diff = (Number(a[sortKey]) - Number(b[sortKey])) * sortDir;
+      } else if (type === "version") {
+        diff = compareVersions(a.build, b.build) * sortDir;
+      } else if (type === "when") {
+        const av = whenValue(a[sortKey]);
+        const bv = whenValue(b[sortKey]);
+        if (av === null && bv === null) diff = 0;
+        else if (av === null) return 1;
+        else if (bv === null) return -1;
+        else diff = (av - bv) * sortDir;
+      } else if (type === "status") {
+        diff = (statusRank(a) - statusRank(b)) * sortDir;
+        if (!diff) diff = String(a.date || "9999").localeCompare(String(b.date || "9999")) * sortDir;
+      } else if (type === "planned") {
+        const av = a.date || ("~" + (a.plannedPublish || ""));
+        const bv = b.date || ("~" + (b.plannedPublish || ""));
+        diff = av.localeCompare(bv) * sortDir;
+      } else {
+        const av = a[sortKey] || "";
+        const bv = b[sortKey] || "";
+        if (!av && !bv) diff = 0;
+        else if (!av) return 1;
+        else if (!bv) return -1;
+        else diff = av.localeCompare(bv) * sortDir;
+      }
+      return diff || a.name.localeCompare(b.name);
+    }
+
+    function pillClass(status) {
+      if (status === "live") return "live";
+      if (String(status).startsWith("scheduled")) return "scheduled";
+      return "private";
+    }
+
+    function renderHead() {
+      const row = document.getElementById("head");
+      row.replaceChildren();
+      COLUMNS.forEach((column) => {
+        const th = document.createElement("th");
+        th.scope = "col";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.key = column.key;
+        const active = column.key === sortKey;
+        th.setAttribute("aria-sort", active ? (sortDir === 1 ? "ascending" : "descending") : "none");
+        button.textContent = column.label + (active ? (sortDir === 1 ? " ▲" : " ▼") : "");
+        button.addEventListener("click", () => {
+          if (sortKey === column.key) sortDir *= -1;
+          else {
+            sortKey = column.key;
+            sortDir = column.type === "number" ? -1 : 1;
+          }
+          render();
+        });
+        th.append(button);
+        row.append(th);
+      });
+    }
+
+    function visibleActors() {
+      const term = document.getElementById("q").value.trim().toLowerCase();
+      const list = actors.filter((row) => {
+        if (!term) return true;
+        return (row.name + " " + row.title + " " + row.what + " " + row.status).toLowerCase().includes(term);
+      });
+      return list.sort(compare);
+    }
+
+    function addCell(tr, text, className) {
+      const td = document.createElement("td");
+      if (className) td.className = className;
+      td.textContent = text == null ? "" : String(text);
+      tr.append(td);
+      return td;
+    }
+
+    function render() {
+      renderHead();
+      const body = document.getElementById("body");
+      const rows = visibleActors();
+      body.replaceChildren();
+      rows.forEach((row) => {
+        const tr = document.createElement("tr");
+        tr.dataset.name = row.name;
+        addCell(tr, row.name);
+        addCell(tr, row.title);
+        addCell(tr, row.what, "what");
+        const statusCell = addCell(tr, "");
+        const pill = document.createElement("span");
+        pill.className = "pill " + pillClass(row.status);
+        pill.textContent = row.status || "";
+        statusCell.append(pill);
+        addCell(tr, row.statusSource);
+        addCell(tr, row.plannedPublish);
+        addCell(tr, row.pricing);
+        addCell(tr, row.build);
+        addCell(tr, row.users, "num");
+        addCell(tr, row.runs, "num");
+        addCell(tr, row.created);
+        addCell(tr, row.modified);
+        const storeCell = document.createElement("td");
+        if (row.store) {
+          const link = document.createElement("a");
+          link.href = row.store;
+          link.textContent = row.store;
+          link.rel = "noopener noreferrer";
+          storeCell.append(link);
+        }
+        tr.append(storeCell);
+        body.append(tr);
+      });
+      document.getElementById("showing").textContent = "Showing " + rows.length + " of " + actors.length + " actors.";
+    }
+
+    function renderSummary() {
+      const live = actors.filter((row) => row.status === "live").length;
+      const scheduled = actors.filter((row) => String(row.status).startsWith("scheduled")).length;
+      const priv = actors.filter((row) => row.status === "private test").length;
+      const dated = actors.filter((row) => row.date === "2026-10-24");
+      const counts = document.getElementById("counts");
+      [actors.length + " actors", live + " live", scheduled + " scheduled", priv + " private test", dated.length + " dated 24 Oct"].forEach((text) => {
+        const li = document.createElement("li");
+        li.textContent = text;
+        counts.append(li);
+      });
+      document.getElementById("oct24").textContent = dated.length
+        ? dated.map((row) => row.name).join(", ")
+        : "none";
+    }
+
+    document.getElementById("q").addEventListener("input", render);
+
+    fetch(new URL("actors.json", window.location.href))
+      .then((response) => {
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.json();
+      })
+      .then((data) => {
+        actors = Array.isArray(data.actors) ? data.actors : [];
+        const asOf = document.getElementById("asof");
+        asOf.textContent = data.asOf
+          ? "Snapshot labelled " + data.asOf + " on the tracker draft."
+          : "";
+        renderSummary();
+        render();
+      })
+      .catch(() => {
+        const error = document.getElementById("error");
+        error.hidden = false;
+        error.textContent = "Could not load actors.json. Serve this docs folder over HTTP. The page fetches actors.json next to itself.";
+      });
+  </script>
+</body>
+</html>
