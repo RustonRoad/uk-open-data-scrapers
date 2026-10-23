@@ -23,8 +23,9 @@ def _client():
 
 
 def test_search_merges_both_sources_and_filters_find_a_tender():
+    client = _client()
     rows, warnings = tenders.search(
-        _client(),
+        client,
         keyword="roofing",
         region="London",
         days=30,
@@ -32,6 +33,9 @@ def test_search_merges_both_sources_and_filters_find_a_tender():
         today=date(2026, 10, 23),
     )
     assert warnings == []
+    get_urls = [call[1] for call in client.calls if call[0] == "GET"]
+    assert get_urls and "stages=tender" in get_urls[0]
+    assert "planning,tender" not in get_urls[0]
     sources = {row["source"] for row in rows}
     assert sources == {"contracts_finder", "find_a_tender"}
     fts = [row for row in rows if row["source"] == "find_a_tender"]

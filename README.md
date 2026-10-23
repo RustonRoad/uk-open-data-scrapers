@@ -55,7 +55,7 @@ ukopendata tenders --keyword roofing --region London
 ukopendata tenders --keyword software --days 7 --status Open --format csv
 ```
 
-Contracts Finder is searched with its published API (keyword, region, date). Find a Tender has no keyword parameter on the OCDS feed, so the command reads a few pages of that window and keeps notices whose title or description matches. Region names such as London, Scotland and North West are mapped to the NUTS code Find a Tender puts on the buyer. Default is 30 days and 20 notices.
+Contracts Finder is searched with its published API (keyword, region, date). Find a Tender has no keyword parameter on the OCDS feed, so the command reads a few pages of that window and keeps notices whose title or description matches. The live Find a Tender API returns an empty package if several stages are sent together, so the default is a single stage, `tender`. Use `--stage award`, `--stage planning` or `--stage all`. Region names such as London, Scotland and North West are mapped to the NUTS code Find a Tender puts on the buyer. Default is 30 days and 20 notices.
 
 Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the tenders actor is [uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed).
 

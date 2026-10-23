@@ -90,6 +90,7 @@ def test_price_cap_reads_the_headline_table():
     assert rows[0]["period"] == "1 October to 31 December 2026"
     assert rows[0]["typical_annual_gbp"] == 1723
     assert rows[0]["change_percent"] == 4
+    assert isinstance(rows[0]["change_percent"], int)
     assert rows[0]["electricity_unit_p_per_kwh"] == 26.32
     assert rows[0]["electricity_standing_p_per_day"] == 54.83
     assert rows[0]["gas_unit_p_per_kwh"] == 7.97
@@ -97,4 +98,4 @@ def test_price_cap_reads_the_headline_table():
     assert rows[1]["period"] == "1 July to 30 September 2026"
     assert rows[1]["electricity_unit_p_per_kwh"] == 26.11
     assert rows[1]["typical_annual_gbp"] == ""
-    assert "5% VAT on gas" in note
+    assert note == "Figures are rounded to two decimal places and include 5% VAT on gas."

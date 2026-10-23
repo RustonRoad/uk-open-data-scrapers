@@ -81,6 +81,7 @@ def search(
     days: int = 30,
     limit: int = 20,
     status: str | None = None,
+    stage: str = "tender",
     sources: str = "both",
     today: date | None = None,
     max_fts_pages: int = 3,
@@ -94,6 +95,8 @@ def search(
         raise UsageError("--limit must be between 1 and 100.")
     if sources not in {"both", "contracts-finder", "find-a-tender"}:
         raise UsageError("--source must be both, contracts-finder or find-a-tender.")
+    if stage not in {"tender", "award", "planning", "all"}:
+        raise UsageError("--stage must be tender, award, planning or all.")
 
     end = today or datetime.now(timezone.utc).date()
     start = end - timedelta(days=days)
@@ -127,6 +130,7 @@ def search(
                     end=end,
                     limit=limit,
                     max_pages=max_fts_pages,
+                    stage=stage,
                 )
             )
         except HttpError as exc:
@@ -198,11 +202,15 @@ def fetch_find_a_tender(
     end: date,
     limit: int,
     max_pages: int,
+    stage: str = "tender",
 ) -> list[dict]:
     # The OCDS search has no keyword parameter. Read a few pages of the
     # published window and keep notices whose title or description matches.
+    # A comma-separated stages value returns an empty package from the live
+    # API, so one stage is sent, or the parameter is omitted for "all".
+    stage_query = "" if stage == "all" else f"&stages={stage}"
     params = (
-        f"limit=100&stages=planning,tender,award"
+        f"limit=100{stage_query}"
         f"&updatedFrom={start.isoformat()}T00:00:00"
         f"&updatedTo={end.isoformat()}T23:59:59"
     )

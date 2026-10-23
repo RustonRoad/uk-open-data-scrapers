@@ -56,6 +56,8 @@ def parse_price_cap(html: str) -> tuple[list[dict], str]:
     change_percent: float | None = None
     if change:
         change_percent = float(change.group(2))
+        if change_percent.is_integer():
+            change_percent = int(change_percent)
         if change.group(1).casefold() == "down":
             change_percent = -change_percent
     # The page's last column is the current cap. The first rate column is the previous quarter.
@@ -80,7 +82,7 @@ def _row(period, typical, change_percent, electricity, gas) -> dict:
 
 
 def _vat_note(text: str) -> str:
-    match = re.search(r"Figures are rounded to two decimal places.{0,240}", text)
+    match = re.search(r"Figures are rounded to two decimal places[^.]*\.", text)
     if not match:
         return "Direct Debit averages for England, Scotland and Wales, as published by Ofgem."
     return " ".join(match.group(0).split())

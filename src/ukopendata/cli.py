@@ -71,6 +71,12 @@ def build_parser() -> argparse.ArgumentParser:
     tenders_parser.add_argument("--limit", type=int, default=20, help="Maximum notices (default 20, max 100)")
     tenders_parser.add_argument("--status", help="Contracts Finder status, for example Open or Awarded")
     tenders_parser.add_argument(
+        "--stage",
+        choices=("tender", "award", "planning", "all"),
+        default="tender",
+        help="Find a Tender stage (default tender). 'all' omits the stage filter.",
+    )
+    tenders_parser.add_argument(
         "--source",
         choices=("both", "contracts-finder", "find-a-tender"),
         default="both",
@@ -260,6 +266,7 @@ def command_tenders(args: argparse.Namespace) -> CommandResult:
         days=args.days,
         limit=args.limit,
         status=args.status,
+        stage=args.stage,
         sources=args.source,
     )
     return CommandResult(
