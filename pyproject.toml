@@ -52,3 +52,6 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+# pytest 9 collects with importlib and does not put the repo root on
+# sys.path. The suite imports tests.fakes, so the root has to be explicit.
+pythonpath = ["."]
