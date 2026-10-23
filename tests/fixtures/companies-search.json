@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "company_number": "12345678",
+      "title": "ROOFING EXAMPLE LTD",
+      "company_status": "active",
+      "company_type": "ltd",
+      "date_of_creation": "2024-05-01",
+      "address_snippet": "1 Test Street, London, SW11 1AA"
+    }
+  ]
+}

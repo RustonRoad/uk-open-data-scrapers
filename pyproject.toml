@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ukopendata"
+version = "0.1.0"
+description = "Small Python CLI for official UK open data: tenders, short positions, donations, house prices, Companies House, the energy price cap and road fuel prices."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "UK Industry & Bills" }]
+keywords = [
+    "uk",
+    "open-data",
+    "tenders",
+    "companies-house",
+    "land-registry",
+    "ofgem",
+    "fca",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/RustonRoad/uk-open-data-scrapers"
+Apify = "https://apify.com/seaf999ield"
+Newsletter = "https://ukindustryandbills.substack.com"
+"Data store" = "https://payhip.com/UKIndustryBills"
+
+[project.scripts]
+ukopendata = "ukopendata.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# pytest 9 collects with importlib and does not put the repo root on
+# sys.path. The suite imports tests.fakes, so the root has to be explicit.
+pythonpath = ["."]

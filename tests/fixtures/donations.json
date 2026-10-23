@@ -1,0 +1,30 @@
+{
+  "Publisher": "The Electoral Commission",
+  "Total": 2,
+  "Result": [
+    {
+      "RegulatedEntityName": "Labour Party",
+      "RegulatedEntityType": "Political Party",
+      "Value": 250000.0,
+      "AcceptedDate": "/Date(1789081200000)/",
+      "DonorName": "  Flowidea Limited",
+      "DonorStatus": "Company",
+      "DonationType": "Cash",
+      "ReportedDate": "/Date(1789513200000)/",
+      "RegisterName": "Great Britain",
+      "ECRef": "C0841169"
+    },
+    {
+      "RegulatedEntityName": "Example Party",
+      "RegulatedEntityType": "Political Party",
+      "Value": 1500.0,
+      "AcceptedDate": "/Date(1788000000000)/",
+      "DonorName": "Ada Example",
+      "DonorStatus": "Individual",
+      "DonationType": "Cash",
+      "ReportedDate": "/Date(1788000000000)/",
+      "RegisterName": "Great Britain",
+      "ECRef": "C0000001"
+    }
+  ]
+}

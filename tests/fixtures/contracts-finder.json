@@ -1,0 +1,19 @@
+{
+  "hitCount": 1,
+  "noticeList": [
+    {
+      "item": {
+        "id": "38e48a4f-876d-4da9-93db-be362837186f",
+        "title": "Roofing Replacement and Repairs",
+        "organisationName": "Efficiency East Midlands Ltd",
+        "publishedDate": "2026-10-14T10:16:32+01:00",
+        "deadlineDate": "2026-11-02T12:00:00+01:00",
+        "valueLow": 39956.4,
+        "valueHigh": 45000,
+        "noticeStatus": "Open",
+        "regionText": "East Midlands",
+        "cpvCodes": "45262800"
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "license": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+  "releases": [
+    {
+      "ocid": "ocds-h6vhtk-06da88",
+      "id": "100110-2026",
+      "date": "2026-10-22T15:34:22+01:00",
+      "tender": {
+        "title": "Roofing works for a London school",
+        "description": "Planned roofing replacement.",
+        "status": "active",
+        "classification": {"scheme": "CPV", "id": "45260000"},
+        "value": {"amount": 4000000, "currency": "GBP"},
+        "tenderPeriod": {"endDate": "2026-11-19T12:00:00Z"}
+      },
+      "parties": [
+        {
+          "name": "London Borough Example",
+          "roles": ["buyer"],
+          "address": {"locality": "London", "region": "UKI", "postalCode": "SW11 1AA", "countryName": "United Kingdom"}
+        }
+      ]
+    },
+    {
+      "ocid": "ocds-h6vhtk-0000aa",
+      "id": "100111-2026",
+      "date": "2026-10-21T09:00:00+01:00",
+      "tender": {
+        "title": "Roofing framework",
+        "description": "Scotland only.",
+        "status": "active",
+        "value": {"amount": 10, "currency": "GBP"}
+      },
+      "parties": [
+        {
+          "name": "Edinburgh Buyer",
+          "roles": ["buyer"],
+          "address": {"locality": "Edinburgh", "region": "UKM", "countryName": "United Kingdom"}
+        }
+      ]
+    },
+    {
+      "ocid": "ocds-h6vhtk-0000bb",
+      "id": "100112-2026",
+      "date": "2026-10-20T09:00:00+01:00",
+      "tender": {
+        "title": "Window cleaning",
+        "description": "No roofs here.",
+        "status": "active"
+      },
+      "parties": [
+        {
+          "name": "London Cleaners",
+          "roles": ["buyer"],
+          "address": {"locality": "London", "region": "UKI"}
+        }
+      ]
+    }
+  ],
+  "links": {}
+}

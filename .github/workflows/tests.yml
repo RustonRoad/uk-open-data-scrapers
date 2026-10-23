@@ -1,0 +1,25 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit:
+    name: unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install the package and test tools
+        run: pip install -e ".[dev]"
+      - name: Run unit tests
+        run: pytest
+        # Fixtures are recorded. The tests block socket.create_connection,
+        # so this job does not call Contracts Finder, the FCA, EDGAR or any other source.

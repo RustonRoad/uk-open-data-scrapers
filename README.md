@@ -1,140 +1,237 @@
-# UK Open Data Scrapers & APIs
+# ukopendata
 
-**Ready-made scrapers and APIs for UK public data:** Companies House, public tenders, FCA short positions, Gazette insolvency notices, Home Office visa sponsors, FSA food hygiene ratings, product recalls, Electoral Commission donations, Google Trends UK and BNPL checkout detection. Each one runs on [Apify](https://apify.com/seaf999ield), returns clean JSON/CSV/Excel, and is priced per result.
+[![Tests](https://github.com/RustonRoad/uk-open-data-scrapers/actions/workflows/tests.yml/badge.svg)](https://github.com/RustonRoad/uk-open-data-scrapers/actions/workflows/tests.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Why UK open data?
+**A small, free Python CLI for official UK open data: tenders, short positions, donations, house prices, Companies House, the energy price cap and pump prices.**
 
-The UK publishes a lot of useful official data: new company registrations, government contracts, short-selling disclosures, insolvency notices, sponsor licences, hygiene inspections, safety recalls and political donations. It's spread across dozens of portals, though, and each has its own formats, rate limits and quirks. These actors turn those sources into structured, schedulable feeds for:
+No account, no telemetry, no tracking. Each command does one job and prints a table, CSV or JSON. The data stays under the publisher's licence. The code is MIT.
 
-- **Lead generation:** new companies by SIC code and region, newly opened restaurants, newly licensed visa sponsors, open tenders in your CPV codes, shops without BNPL.
-- **Research and journalism:** short interest, insolvencies, donations and recalls as clean datasets for analysis and stories.
-- **Monitoring and compliance:** daily change alerts for suppliers, customers, portfolios, competitors and product categories.
+```text
+$ ukopendata house-prices SW11 --months 6 --limit 3
+SW11  2026-04-23 to 2026-10-23  sales=3  median=£400,000  min=£250,000  max=£500,000  category=A
+date        price_gbp  type           tenure     new_build  paon  street          town    postcode
+----------  ---------  -------------  ---------  ---------  ----  --------------  ------  --------
+2026-08-01  400000     flat           leasehold  False      12    LATCHMERE ROAD  LONDON  SW11 1AA
+2026-07-01  500000     semi-detached  freehold   False      2     COMYN ROAD      LONDON  SW11 3FF
+2026-06-15  250000     terraced       freehold   False      3     SHELGATE ROAD   LONDON  SW11 4BB
+```
 
-Each actor can run on a schedule, has a REST API, and can push results to Google Sheets, webhooks, Make, Zapier, n8n, HubSpot or BigQuery.
+The median uses every matching standard sale. The table is the newest comps. This block is the real layout from a tiny sample file, not a live Land Registry extract.
 
-## All actors
+## Quick start
 
-| Actor | What it does | Who it's for | Price per 1,000 results | Apify Store |
-|---|---|---|---|---|
-| [UK Companies House Scraper: New Companies Feed & Alerts](docs/uk-companies-house-feed.md) | Daily feed of new UK company incorporations from the official Companies House API, filtered by SIC code, region and postcode, plus liquidation, administration and dissolution alerts for a watchlist. | Accountants, insurers and brokers, banks and fintechs, agencies, credit control | $3 | [apify.com/seaf999ield/uk-companies-house-feed](https://apify.com/seaf999ield/uk-companies-house-feed) |
-| [UK Tenders Scraper & API: Find a Tender, Contracts Finder, TED](docs/uk-public-tenders-feed.md) | New UK public-sector tenders and contract awards from Find a Tender and Contracts Finder, with optional EU TED. Filter by keyword, CPV code, value and region. | Bid and sales teams, agencies and consultancies, market researchers | $3 | [apify.com/seaf999ield/uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed) |
-| [FCA Short Positions Scraper: UK Short Interest Tracker](docs/uk-fca-short-positions.md) | UK short interest from the official FCA net short positions report: short % by company and ISIN, new/increased/decreased/closed position alerts and issuer history. | Traders and investors, hedge funds and analysts, IR teams, financial journalists | $2 | [apify.com/seaf999ield/uk-fca-short-positions](https://apify.com/seaf999ield/uk-fca-short-positions) |
-| [UK Insolvency Notices Scraper: Gazette Winding-Up Feed](docs/uk-gazette-insolvency-notices.md) | Daily UK insolvency notices from The Gazette: winding-up petitions and orders, administrations and liquidations, with company number and postcode. | Credit controllers, trade-credit insurers, insolvency practitioners, lenders, journalists | $3 | [apify.com/seaf999ield/uk-gazette-insolvency-notices](https://apify.com/seaf999ield/uk-gazette-insolvency-notices) |
-| [UK Visa Sponsor Register Scraper & Monitor (Home Office)](docs/uk-visa-sponsor-register-monitor.md) | Tracks the Home Office Register of Licensed Sponsors: new sponsors, removals and A-to-B rating downgrades by town and visa route, with optional Companies House enrichment. | Recruitment agencies, sponsor job boards, HR and compliance, researchers | $1 (snapshot) / $10 (changes) | [apify.com/seaf999ield/uk-visa-sponsor-register-monitor](https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor) |
-| [UK Food Hygiene Ratings Scraper & New Restaurant Leads](docs/uk-food-hygiene-ratings.md) | Search FSA food hygiene ratings by council, postcode, business type or rating, get leads for newly opened restaurants and takeaways, and monitor rating changes. | Suppliers to hospitality, food safety consultants, landlords and franchisors, delivery apps | $2 | [apify.com/seaf999ield/uk-food-hygiene-ratings](https://apify.com/seaf999ield/uk-food-hygiene-ratings) |
-| [UK Product Recalls Scraper: OPSS, FSA & MHRA Safety Alerts](docs/uk-product-safety-recalls.md) | One UK recall and safety-alert feed: OPSS product recalls (toys, baby, electrical), FSA food and allergy alerts, and MHRA medicine and device alerts. | Online sellers and marketplaces, retailers and importers, compliance/QA, pharmacies | $2 | [apify.com/seaf999ield/uk-product-safety-recalls](https://apify.com/seaf999ield/uk-product-safety-recalls) |
-| [UK Political Donations Scraper: Electoral Commission API](docs/uk-political-donations.md) | UK political donations and loans from the Electoral Commission register: filter by party, donor, donor type, date and value, and monitor new donations. | Journalists, transparency researchers, public affairs and due-diligence teams, academics | $2 | [apify.com/seaf999ield/uk-political-donations](https://apify.com/seaf999ield/uk-political-donations) |
-| [Google Trends Scraper UK: Interest, Regions & Related Queries](docs/uk-google-trends.md) | Google Trends for the UK and any country: interest over time, interest by region and nation (England, Scotland, Wales, NI), and rising/top related queries. | SEO and content teams, ecommerce sellers, marketers, journalists and analysts | $2 | [apify.com/seaf999ield/uk-google-trends](https://apify.com/seaf999ield/uk-google-trends) |
-| [BNPL Checker UK: Klarna, Clearpay & PayPal Pay in 3 Detector](docs/uk-bnpl-merchant-detector.md) | Checks UK online shops for Klarna, Clearpay, PayPal Pay in 3, Laybuy and Zilch, and detects the platform (Shopify, WooCommerce). | BNPL and payments sales teams, Shopify/WooCommerce agencies, analysts, compliance | $3 | [apify.com/seaf999ield/uk-bnpl-merchant-detector](https://apify.com/seaf999ield/uk-bnpl-merchant-detector) |
-
-Prices are in USD, pay-per-event, as listed on the Apify Store. Some actors also charge separately for change/alert events. See each docs page for details. Apify's free plan includes monthly credit for trying them.
-
-**Coming soon:** amazon-uk-bestsellers · ebay-uk-listings-prices · uk-jobs-feed
-
-## Stay updated: free weekly newsletter
-
-📬 **[UK Industry & Bills](https://imrawtrader.beehiiv.com)** is a free weekly newsletter on UK industry, energy bills, regulation and the data behind them, with new scrapers announced first.
-Follow on X: **[@ImRawTrader](https://x.com/ImRawTrader)**
-
-## How to use
-
-You need a free Apify account and your API token from [Console → Settings → Integrations](https://console.apify.com/settings/integrations). Don't commit your token. Keep it in an environment variable.
-
-### Via API (curl)
+Python 3.10 or newer.
 
 ```bash
-# Run an actor synchronously and get the dataset items back as JSON
-curl -X POST \
-  "https://api.apify.com/v2/acts/seaf999ield~uk-companies-house-feed/run-sync-get-dataset-items" \
-  -H "Authorization: Bearer $APIFY_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"mode":"new_companies","daysBack":1,"regions":["London"],"maxResults":100}'
+pip install "ukopendata @ git+https://github.com/RustonRoad/uk-open-data-scrapers.git"
 ```
 
-### Python (apify-client)
+From a checkout:
 
 ```bash
-pip install apify-client
+pip install -e .
+ukopendata --help
+ukopendata tenders --keyword roofing --region London
+ukopendata shorts --top 20
+ukopendata donations --min-value 50000 --days 180
+ukopendata house-prices SW11 --months 6
+ukopendata price-cap
+ukopendata fuel --weeks 8
+ukopendata biopharma-events --date 2026-10-22
 ```
 
-```python
-import os
-from apify_client import ApifyClient
+`--format table` (the default), `--format csv` or `--format json`. `--output path.csv` writes the data to a file. The source line and the links below it go to the terminal, not into the file, so a CSV stays a CSV.
 
-client = ApifyClient(os.environ["APIFY_TOKEN"])
+Companies House is the one command that needs a free key. See [Companies](#companies-and-company).
 
-run = client.actor("seaf999ield/uk-public-tenders-feed").call(run_input={
-    "daysBack": 3,
-    "keywords": ["software", "digital", "cloud"],
-    "onlyOpen": True,
-})
+## Commands
 
-for item in client.dataset(run["defaultDatasetId"]).iterate_items():
-    print(item["title"], item.get("buyerName"), item.get("valueGBP"))
+### tenders
+
+```bash
+ukopendata tenders --keyword roofing --region London
+ukopendata tenders --keyword software --days 7 --status Open --format csv
 ```
 
-### JavaScript / Node.js (apify-client)
+Contracts Finder is searched with its published API (keyword, region, date). Find a Tender has no keyword parameter on the OCDS feed, so the command reads a few pages of that window and keeps notices whose title or description matches. The live Find a Tender API returns an empty package if several stages are sent together, so the default is a single stage, `tender`. Use `--stage award`, `--stage planning` or `--stage all`. Region names such as London, Scotland and North West are mapped to the NUTS code Find a Tender puts on the buyer. Default is 30 days and 20 notices.
 
-```javascript
-import { ApifyClient } from 'apify-client';
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the tenders actor is [uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed).
 
-const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
-const run = await client.actor('seaf999ield/uk-fca-short-positions').call({ mode: 'current', minShortPct: 3 });
-const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);
+### shorts
+
+```bash
+ukopendata shorts --top 20
 ```
 
-### Make (Integromat)
+The FCA's current aggregated net short positions file, one row per issuer, largest first. Individual holders are not in the file. **Not investment advice.**
 
-1. Add the **Apify** app → **Run an Actor** module, and connect your Apify account.
-2. Actor: `seaf999ield/uk-food-hygiene-ratings`; Run synchronously: **Yes**.
-3. Input JSON: `{"mode":"new_businesses","localAuthorities":["Manchester"],"businessTypes":["restaurant","takeaway"],"monitorName":"manchester"}`
-4. Add **Apify → Get Dataset Items** (use the run's `defaultDatasetId`), then send rows to Google Sheets, HubSpot or email.
-5. Schedule the scenario daily or weekly.
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the short-interest actor is [uk-fca-short-positions](https://apify.com/seaf999ield/uk-fca-short-positions).
 
-### Zapier
+### donations
 
-1. Trigger: **Schedule by Zapier** (e.g. every weekday at 08:00).
-2. Action: **Apify → Run Actor**, Actor `seaf999ield/uk-gazette-insolvency-notices`, with an input such as `{"mode":"new_notices"}`.
-3. Action: **Apify → Fetch Dataset Items** (from the run), then **Google Sheets → Create Row** or **Slack → Send Message**.
-4. Or schedule the actor in Apify and use the Zapier trigger **Apify → Finished Actor Run**.
+```bash
+ukopendata donations --query "Labour Party" --days 180 --min-value 50000
+ukopendata donations --from 2026-01-01 --to 2026-06-30 --donor-type Company --limit 20
+```
+
+One or a few pages of the Electoral Commission donations search, newest accepted date first. `--min-value` and `--donor-type` are applied to those pages, not to the whole historical register.
+
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the donations actor is [uk-political-donations](https://apify.com/seaf999ield/uk-political-donations).
+
+### house-prices
+
+```bash
+ukopendata house-prices SW11 --months 6
+ukopendata house-prices "SW11 1AA" --months 12 --limit 15 --format json
+ukopendata house-prices SW11 --file ~/Downloads/pp-2026.csv
+```
+
+Median and comps from the HM Land Registry Price Paid yearly CSV (same columns as the monthly file). `SW11` matches that outward code and does not match `SW1`. Category B sales and deleted records are left out unless you pass `--include-additional`. The yearly file is about 70–170 MB; it is cached in `~/.cache/ukopendata` and reused until the publisher's file size or last-modified date changes.
+
+The monthly CSV on GOV.UK is a change file (additions, changes, deletions), so it is the wrong input for a median. Use the yearly file, or pass a CSV you already trust with `--file`.
+
+The linked-data API at `landregistry.data.gov.uk` is not used. Its robots.txt disallows `/data` and `/sparql`.
+
+Contains HM Land Registry data © Crown copyright and database right 2021. This data is licensed under the Open Government Licence v3.0.
+
+Address fields include Royal Mail PAF and Ordnance Survey data. That address data may be used for personal and/or non-commercial use, and displayed to provide residential property price information. Any other use needs permission from Royal Mail: address.management@royalmail.com.
+
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+
+### companies and company
+
+```bash
+export COMPANIES_HOUSE_API_KEY=your-key   # do not commit this
+ukopendata companies "roofing" --limit 10
+ukopendata company 00445790
+```
+
+How to get the free key:
+
+1. Open [developer.company-information.service.gov.uk](https://developer.company-information.service.gov.uk/) and register.
+2. Create an application and copy the REST API key.
+3. Export it as `COMPANIES_HOUSE_API_KEY`. The command sends it as HTTP Basic (the key is the username, the password is empty). It is not written to a file and it is not put in the URL.
+
+The published limit is 600 requests in 5 minutes. Each command makes one. A numeric company number is padded to 8 digits.
+
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the companies actor is [uk-companies-house-feed](https://apify.com/seaf999ield/uk-companies-house-feed).
+
+### biopharma-events
+
+```bash
+ukopendata biopharma-events --date 2026-10-22
+ukopendata biopharma-events --date 2026-10-22 --query '"Phase 3" OR PDUFA' --limit 10
+```
+
+8-K and 6-K filings from the SEC EDGAR full-text search for one filing date. The default query looks for pharmaceutical, biotech, clinical-trial and FDA wording. When a filing has a SIC code, it is kept only if that code is 2833, 2834, 2835 or 2836. Exhibits of the same accession are collapsed to one row. The default date is yesterday.
+
+Every request uses the User-Agent `ukopendata Dartiproductions@protonmail.com` and waits so the command stays under the SEC's 10 requests per second. **Not investment advice.**
+
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+
+### price-cap
+
+```bash
+ukopendata price-cap
+```
+
+The Ofgem headline cap for a typical Direct Debit household in England, Scotland and Wales, plus electricity and gas unit rates and standing charges for the current quarter and the one before it. Regional tables on the Ofgem page are loaded in the browser; this command reads the headline table in the published HTML.
+
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+
+### fuel
+
+```bash
+ukopendata fuel --weeks 8
+```
+
+The latest weeks of UK average petrol and diesel pump prices, duty and VAT, from the Department for Energy Security and Net Zero. The GOV.UK content API is used to find the current CSV, because the file id changes when the series is updated.
+
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+
+Newsletter: https://ukindustryandbills.substack.com · Data store: https://payhip.com/UKIndustryBills
+
+## Sources and licences
+
+| Command | Source | Access | Licence and attribution |
+|---|---|---|---|
+| `tenders` | [Contracts Finder search](https://www.contractsfinder.service.gov.uk/apidocumentation/) and [Find a Tender OCDS](https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages) | Keyless official APIs. A few pages per command. | Open Government Licence v3.0, Cabinet Office |
+| `shorts` | [FCA current aggregated net short positions CSV](https://www.fca.org.uk/publication/documents/aggregated-current-net-short-positions.csv) | Keyless file. The URL has no query string; the FCA robots.txt disallows query-string URLs. | FCA publication. Attribute the FCA. Not investment advice. |
+| `donations` | [Electoral Commission donations search](https://search.electoralcommission.org.uk/Search/Donations) | Keyless search the public site uses, one or a few pages. | Open Government Licence v3.0 |
+| `house-prices` | [Price Paid yearly CSV](https://price-paid-data.publicdata.landregistry.gov.uk/pp-2026.csv) linked from [GOV.UK](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads) | Keyless bulk file, cached locally. | OGL v3.0. Use the Land Registry attribution printed by the command. Address data: Royal Mail and Ordnance Survey conditions above. |
+| `companies`, `company` | [Companies House public API](https://developer.company-information.service.gov.uk/) | Free key in `COMPANIES_HOUSE_API_KEY`. One request. 600 per 5 minutes. | Crown copyright, OGL, plus the Companies House API terms |
+| `biopharma-events` | [EDGAR full-text search](https://efts.sec.gov/LATEST/search-index) | Keyless. User-Agent with a contact address. Under 10 requests/second. [Fair access](https://www.sec.gov/os/accessing-edgar-data). | US government work. Not investment advice. |
+| `price-cap` | [Ofgem price cap page](https://www.ofgem.gov.uk/your-energy-supply/your-energy-bill/energy-price-cap-unit-rates-and-standing-charges) | Keyless HTML of the headline table. The page is allowed by Ofgem's robots.txt. | Attribute Ofgem |
+| `fuel` | [Weekly road fuel prices](https://www.gov.uk/government/statistics/weekly-road-fuel-prices) via the [GOV.UK content API](https://www.gov.uk/api/content/government/statistics/weekly-road-fuel-prices) | Keyless. gov.uk robots.txt allows this path. | OGL v3.0. Accredited official statistics, DESNZ |
+
+The code licence does not license the data. Details are in [LICENSING.md](LICENSING.md).
+
+## What was left out
+
+These are on the hosted side, or they are not a fit for a keyless official command:
+
+| Source | Why it is not a command |
+|---|---|
+| Google Trends | Not an official open API. Automated access is outside Google's published terms. |
+| BNPL shop checker | Reads private shop websites. robots.txt and terms differ by site. |
+| The Gazette insolvency notices | No single documented keyless OGL bulk file or search API used here. |
+| Visa sponsor register | The public spreadsheet is official, but the useful job is a diff of a large register, which needs stored state. |
+| OPSS, FSA and MHRA recalls | Three sites, no shared keyless API or bulk file. |
+| FSA food hygiene ratings | The FHRS API is official and keyless. It is a good next command; this first release stays with the sources above. |
+| Land Registry linked data and SPARQL | `landregistry.data.gov.uk/robots.txt` disallows `/data` and `/sparql`. The yearly CSV is the allowed bulk file. |
+
+## Schedule a CSV without hosting anything
+
+[`.github/workflows/daily-tenders.example.yml`](.github/workflows/daily-tenders.example.yml) searches tenders and commits a CSV. It is `workflow_dispatch` only. It does not run on a timer, so a fork does not call the APIs every morning. Turn on a cron yourself if you want that, and keep the limit small.
 
 ## FAQ
 
-**Is this data legal to use?**
-These actors read official public sources such as Companies House, Find a Tender, Contracts Finder, the FCA, The Gazette, GOV.UK, the FSA, OPSS, MHRA and the Electoral Commission. Most of them are published under the Open Government Licence v3.0. You're responsible for how you use any personal data (UK GDPR, PECR), especially for outreach.
+**Is this legal?**
+The commands call official APIs and bulk files that are published for reuse, and they skip paths disallowed by robots.txt. Most of the UK datasets are Open Government Licence v3.0. You still have to follow each source's conditions, in particular the Royal Mail and Ordnance Survey conditions on Price Paid address data, the Companies House API terms, and the SEC fair-access rules. You are responsible for what you do with personal data (UK GDPR), including names of donors.
 
-**How much does it cost?**
-You pay per result, usually $2–$3 per 1,000 rows, plus a small per-event fee for change alerts on some actors. There's no subscription. Apify's free plan includes monthly credit.
+**Not investment advice**
+`shorts` and `biopharma-events` repeat figures that regulators already publish. They are not a recommendation to buy, sell or hold a security, and they are not a forecast. Short interest is an aggregated disclosure. An 8-K is the company's filing, not this project's opinion.
 
-**Can I get only new records each day?**
-Yes. Most actors have a monitor/changes mode that saves state between runs and outputs only new or changed records. Schedule it daily in Apify.
+**How much does this cost?**
+The CLI is free. Companies House needs a free API key and the other commands need none. The hosted actors on Apify are the paid, scheduled versions with alerts. Apify's free plan includes monthly credit.
 
-**What formats can I export?**
-JSON, CSV, Excel, XML, RSS or HTML tables from the Apify dataset. You can also call the API directly or use integrations (Google Sheets, webhooks, Make, Zapier, n8n).
+**Does it phone home?**
+No. There is no telemetry, analytics or tracking. The only network calls are the ones you asked for, to the public source. A User-Agent identifies the tool and, for EDGAR, the contact address the SEC requires.
 
-**Do I need my own API keys (e.g. Companies House)?**
-No. For very large runs, some actors accept your own free official API key as an optional input for a dedicated quota.
+**Can I get only new rows every day?**
+Not in this CLI. That needs stored state and a schedule. The hosted actors do it, and the example GitHub workflow commits a tenders CSV when you run it.
 
-**Is the source code here?**
-No. This repository is a documentation hub. The actors run on the Apify platform. Each page in [`docs/`](docs/) describes one actor with a real output sample.
+**Where do the actor docs go?**
+The pages in [`docs/`](docs/) describe the hosted actors. The CLI is the free, local version of the same idea, for the sources that can be read this way.
 
-**Can you build a scraper for another UK dataset?**
-Open an issue in this repo with the source and the fields you need, or get in touch on [X](https://x.com/ImRawTrader).
+## Hosted actors
 
-## Docs pages
+The same catalogue, when you want a schedule, a webhook, or a larger run. Prices are USD, pay per result, as listed on the Apify Store.
 
-- [UK Companies House Scraper: New Companies Feed & Alerts](docs/uk-companies-house-feed.md)
-- [UK Tenders Scraper & API: Find a Tender, Contracts Finder, TED](docs/uk-public-tenders-feed.md)
-- [FCA Short Positions Scraper: UK Short Interest Tracker](docs/uk-fca-short-positions.md)
-- [UK Insolvency Notices Scraper: Gazette Winding-Up Feed](docs/uk-gazette-insolvency-notices.md)
-- [UK Visa Sponsor Register Scraper & Monitor (Home Office)](docs/uk-visa-sponsor-register-monitor.md)
-- [UK Food Hygiene Ratings Scraper & New Restaurant Leads](docs/uk-food-hygiene-ratings.md)
-- [UK Product Recalls Scraper: OPSS, FSA & MHRA Safety Alerts](docs/uk-product-safety-recalls.md)
-- [UK Political Donations Scraper: Electoral Commission API](docs/uk-political-donations.md)
-- [Google Trends Scraper UK: Interest, Regions & Related Queries](docs/uk-google-trends.md)
-- [BNPL Checker UK: Klarna, Clearpay & PayPal Pay in 3 Detector](docs/uk-bnpl-merchant-detector.md)
+| Actor | What it does | Apify |
+|---|---|---|
+| [UK Companies House feed](docs/uk-companies-house-feed.md) | New companies by SIC and region, plus status alerts | [uk-companies-house-feed](https://apify.com/seaf999ield/uk-companies-house-feed) |
+| [UK public tenders](docs/uk-public-tenders-feed.md) | Find a Tender, Contracts Finder, optional TED | [uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed) |
+| [FCA short positions](docs/uk-fca-short-positions.md) | Short interest and change alerts | [uk-fca-short-positions](https://apify.com/seaf999ield/uk-fca-short-positions) |
+| [Gazette insolvency notices](docs/uk-gazette-insolvency-notices.md) | Winding-up petitions, administrations, liquidations | [uk-gazette-insolvency-notices](https://apify.com/seaf999ield/uk-gazette-insolvency-notices) |
+| [Visa sponsor register](docs/uk-visa-sponsor-register-monitor.md) | New, removed and downgraded sponsors | [uk-visa-sponsor-register-monitor](https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor) |
+| [Food hygiene ratings](docs/uk-food-hygiene-ratings.md) | FHRS search and new-restaurant leads | [uk-food-hygiene-ratings](https://apify.com/seaf999ield/uk-food-hygiene-ratings) |
+| [Product safety recalls](docs/uk-product-safety-recalls.md) | OPSS, FSA and MHRA alerts | [uk-product-safety-recalls](https://apify.com/seaf999ield/uk-product-safety-recalls) |
+| [Political donations](docs/uk-political-donations.md) | Electoral Commission donations and loans | [uk-political-donations](https://apify.com/seaf999ield/uk-political-donations) |
+| [Google Trends UK](docs/uk-google-trends.md) | Interest, regions and related queries | [uk-google-trends](https://apify.com/seaf999ield/uk-google-trends) |
+| [BNPL checker](docs/uk-bnpl-merchant-detector.md) | Klarna, Clearpay and PayPal Pay in 3 | [uk-bnpl-merchant-detector](https://apify.com/seaf999ield/uk-bnpl-merchant-detector) |
+
+## Develop
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add a source, and for a suggested GitHub description and topic list.
 
 ---
 
-*Keywords: UK open data, UK government data API, Companies House scraper, UK tenders API, FCA short positions, Gazette insolvency data, UK visa sponsor list, food hygiene ratings API, UK product recalls, political donations data, Google Trends UK, BNPL checker, lead generation UK.*
+Newsletter: [UK Industry & Bills](https://ukindustryandbills.substack.com) · Data store: [payhip.com/UKIndustryBills](https://payhip.com/UKIndustryBills)

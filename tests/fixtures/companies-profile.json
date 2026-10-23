@@ -1,0 +1,13 @@
+{
+  "company_name": "ROOFING EXAMPLE LTD",
+  "company_number": "12345678",
+  "company_status": "active",
+  "type": "ltd",
+  "date_of_creation": "2024-05-01",
+  "sic_codes": ["43910", "41202"],
+  "registered_office_address": {
+    "address_line_1": "1 Test Street",
+    "locality": "London",
+    "postal_code": "SW11 1AA"
+  }
+}
