@@ -2,7 +2,7 @@
 
 > UK short interest API from the official FCA net short positions report: short % by company and ISIN, daily change alerts and issuer history.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-fca-short-positions](https://apify.com/seaf999ield/uk-fca-short-positions) · **Price:** $2 per 1,000 position rows; $10 per 1,000 change alerts (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $2 per 1,000 position rows; $10 per 1,000 change alerts (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -32,7 +32,7 @@ UK short interest from the official FCA net short positions report: short % by c
 | 3I GROUP PLC | GB00B1YW4409 | increased | 0.77 | 1.07 | 2026-10-20 |
 | 4IMPRINT GROUP PLC | GB0006640972 | decreased | 0.5 | 0.2 | 2026-10-20 |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-fca-short-positions).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -40,7 +40,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-fca-short-positions").call(run_input={'mode': 'current', 'minShortPct': 3, 'sortBy': 'netShortPct'})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-fca-short-positions").call(run_input={'mode': 'current', 'minShortPct': 3, 'sortBy': 'netShortPct'})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

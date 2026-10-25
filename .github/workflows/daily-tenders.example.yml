@@ -11,8 +11,8 @@
 #     workflow_dispatch:
 #
 # That cron is UTC. A daily run of one small search is the most this
-# template should do. For a fuller feed, filters and alerts, use the hosted
-# actor: https://apify.com/seaf999ield/uk-public-tenders-feed
+# template should do. For a fuller feed, filters and alerts, hosted versions:
+# see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
 
 name: daily-tenders-example
 

@@ -2,7 +2,7 @@
 
 > UK visa sponsor licence list API: Home Office Register of Licensed Sponsors. Get new, removed and A-to-B downgraded sponsors. Skilled Worker leads.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor](https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor) · **Price:** $10 per 1,000 detected changes; $1 per 1,000 snapshot rows; $4 per 1,000 Companies House-enriched rows (optional) (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $10 per 1,000 detected changes; $1 per 1,000 snapshot rows; $4 per 1,000 Companies House-enriched rows (optional) (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -41,7 +41,7 @@ Tracks the Home Office Register of Licensed Sponsors: new sponsors, removals and
 | RATING_CHANGED | HOUSE OF CARDS LTD | London | Skilled Worker | Worker (A rating) | info |
 | RATING_CHANGED | ETERNIQUE LIMITED | LONDON | Skilled Worker | Worker (A rating) | info |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -49,7 +49,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-visa-sponsor-register-monitor").call(run_input={'monitorName': 'london-skilled-worker', 'towns': ['London'], 'routes': ['Skilled Worker'], 'changeTypes': ['SPONSOR_ADDED', 'RATING_CHANGED'], 'organisationsOnly': True, 'outputSnapshotOnFirstRun': False})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-visa-sponsor-register-monitor").call(run_input={'monitorName': 'london-skilled-worker', 'towns': ['London'], 'routes': ['Skilled Worker'], 'changeTypes': ['SPONSOR_ADDED', 'RATING_CHANGED'], 'organisationsOnly': True, 'outputSnapshotOnFirstRun': False})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

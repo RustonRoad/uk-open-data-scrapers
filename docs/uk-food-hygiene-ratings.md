@@ -2,7 +2,7 @@
 
 > FSA food hygiene ratings API: search UK restaurants and takeaways by council, postcode or rating; get new-business leads and rating alerts.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-food-hygiene-ratings](https://apify.com/seaf999ield/uk-food-hygiene-ratings) · **Price:** $2 per 1,000 establishments; $5 per 1,000 new-business leads; $10 per 1,000 rating changes (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $2 per 1,000 establishments; $5 per 1,000 new-business leads; $10 per 1,000 rating changes (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -37,7 +37,7 @@ Search FSA food hygiene ratings by council, postcode, business type or rating, g
 | newBusiness | A Simpler Life | Retailers - other | LE15 9QB | Rutland | 5 |
 | newBusiness | All You Can Treat | Retailers - other | LE15 | Rutland | AwaitingInspection |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-food-hygiene-ratings).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -45,7 +45,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-food-hygiene-ratings").call(run_input={'mode': 'new_businesses', 'localAuthorities': ['Manchester'], 'businessTypes': ['restaurant', 'takeaway'], 'monitorName': 'manchester'})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-food-hygiene-ratings").call(run_input={'mode': 'new_businesses', 'localAuthorities': ['Manchester'], 'businessTypes': ['restaurant', 'takeaway'], 'monitorName': 'manchester'})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

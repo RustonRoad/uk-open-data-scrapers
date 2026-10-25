@@ -2,7 +2,7 @@
 
 > Check UK online shops for Klarna, Clearpay, PayPal Pay in 3, Laybuy and Zilch, plus Shopify/WooCommerce platform. Fintech sales leads.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-bnpl-merchant-detector](https://apify.com/seaf999ield/uk-bnpl-merchant-detector) · **Price:** $3 per 1,000 shops checked (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $3 per 1,000 shops checked (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -35,7 +35,7 @@ Checks UK online shops for Klarna, Clearpay, PayPal Pay in 3, Laybuy and Zilch, 
 | gymshark.com | Shopify | true | Klarna | ok |
 | allbirds.co.uk | Shopify | false | – | ok |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-bnpl-merchant-detector).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -43,7 +43,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-bnpl-merchant-detector").call(run_input={'urls': ['https://www.oliverbonas.com', 'boohoo.com', 'gymshark.com'], 'checkProductPage': True, 'onlyWithBnpl': False})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-bnpl-merchant-detector").call(run_input={'urls': ['https://www.oliverbonas.com', 'boohoo.com', 'gymshark.com'], 'checkProductPage': True, 'onlyWithBnpl': False})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

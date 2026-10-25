@@ -3,7 +3,7 @@
 Nothing here is sent anywhere. The strings are printed locally.
 """
 
-APIFY_URL = "https://apify.com/seaf999ield"
+APIFY_URL = "https://imrawtrader.beehiiv.com/p/data"
 NEWSLETTER_URL = "https://ukindustryandbills.substack.com"
 STORE_URL = "https://payhip.com/UKIndustryBills"
 

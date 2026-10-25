@@ -2,7 +2,7 @@
 
 > Google Trends scraper & API for the UK and any country: interest over time, by region (England, Scotland, Wales, NI), related queries & topics.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-google-trends](https://apify.com/seaf999ield/uk-google-trends) · **Price:** $2 per 1,000 result rows (error and no-data rows are free) (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $2 per 1,000 result rows (error and no-data rows are free) (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -37,7 +37,7 @@ Google Trends for the UK and any country: interest over time, interest by region
 | energy price cap vs ofgem vs energy bills | United Kingdom | energy price cap | 24 | 14 | 61 | 2026-05-24 | -48.4 |
 | energy price cap | United Kingdom | energy price cap | 40.1 | 24 | 100 | 2026-05-24 | -48.7 |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-google-trends).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -45,7 +45,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-google-trends").call(run_input={'searchTerms': ['energy price cap'], 'geos': ['GB'], 'ukNationsBundle': True, 'timeframe': 'today 3-m'})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-google-trends").call(run_input={'searchTerms': ['energy price cap'], 'geos': ['GB'], 'ukNationsBundle': True, 'timeframe': 'today 3-m'})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```
