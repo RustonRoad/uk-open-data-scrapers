@@ -57,7 +57,7 @@ ukopendata tenders --keyword software --days 7 --status Open --format csv
 
 Contracts Finder is searched with its published API (keyword, region, date). Find a Tender has no keyword parameter on the OCDS feed, so the command reads a few pages of that window and keeps notices whose title or description matches. The live Find a Tender API returns an empty package if several stages are sent together, so the default is a single stage, `tender`. Use `--stage award`, `--stage planning` or `--stage all`. Region names such as London, Scotland and North West are mapped to the NUTS code Find a Tender puts on the buyer. Default is 30 days and 20 notices.
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the tenders actor is [uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed).
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data. The tenders actor is listed on that page.
 
 ### shorts
 
@@ -67,7 +67,7 @@ ukopendata shorts --top 20
 
 The FCA's current aggregated net short positions file, one row per issuer, largest first. Individual holders are not in the file. **Not investment advice.**
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the short-interest actor is [uk-fca-short-positions](https://apify.com/seaf999ield/uk-fca-short-positions).
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data. The short interest actor is listed on that page.
 
 ### donations
 
@@ -78,7 +78,7 @@ ukopendata donations --from 2026-01-01 --to 2026-06-30 --donor-type Company --li
 
 One or a few pages of the Electoral Commission donations search, newest accepted date first. `--min-value` and `--donor-type` are applied to those pages, not to the whole historical register.
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the donations actor is [uk-political-donations](https://apify.com/seaf999ield/uk-political-donations).
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data. The donations actor is listed on that page.
 
 ### house-prices
 
@@ -98,7 +98,7 @@ Contains HM Land Registry data © Crown copyright and database right 2021. This 
 
 Address fields include Royal Mail PAF and Ordnance Survey data. That address data may be used for personal and/or non-commercial use, and displayed to provide residential property price information. Any other use needs permission from Royal Mail: address.management@royalmail.com.
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data
 
 ### companies and company
 
@@ -116,7 +116,7 @@ How to get the free key:
 
 The published limit is 600 requests in 5 minutes. Each command makes one. A numeric company number is padded to 8 digits.
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield — the companies actor is [uk-companies-house-feed](https://apify.com/seaf999ield/uk-companies-house-feed).
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data. The companies actor is listed on that page.
 
 ### biopharma-events
 
@@ -129,7 +129,7 @@ ukopendata biopharma-events --date 2026-10-22 --query '"Phase 3" OR PDUFA' --lim
 
 Every request uses the User-Agent `ukopendata Dartiproductions@protonmail.com` and waits so the command stays under the SEC's 10 requests per second. **Not investment advice.**
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data
 
 ### price-cap
 
@@ -139,7 +139,7 @@ ukopendata price-cap
 
 The Ofgem headline cap for a typical Direct Debit household in England, Scotland and Wales, plus electricity and gas unit rates and standing charges for the current quarter and the one before it. Regional tables on the Ofgem page are loaded in the browser; this command reads the headline table in the published HTML.
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data
 
 ### fuel
 
@@ -149,7 +149,7 @@ ukopendata fuel --weeks 8
 
 The latest weeks of UK average petrol and diesel pump prices, duty and VAT, from the Department for Energy Security and Net Zero. The GOV.UK content API is used to find the current CSV, because the file id changes when the series is updated.
 
-Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://apify.com/seaf999ield
+Need this at scale, scheduled, with alerts? Use the hosted version on Apify: https://imrawtrader.beehiiv.com/p/data
 
 Newsletter: https://ukindustryandbills.substack.com · Data store: https://payhip.com/UKIndustryBills
 
@@ -208,20 +208,20 @@ The pages in [`docs/`](docs/) describe the hosted actors. The CLI is the free, l
 
 ## Hosted actors
 
-The same catalogue, when you want a schedule, a webhook, or a larger run. Prices are USD, pay per result, as listed on the Apify Store.
+The same catalogue, when you want a schedule, a webhook, or a larger run. Prices are USD, pay per result. Hosted versions: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
-| Actor | What it does | Apify |
+| Actor | What it does | Hosted |
 |---|---|---|
-| [UK Companies House feed](docs/uk-companies-house-feed.md) | New companies by SIC and region, plus status alerts | [uk-companies-house-feed](https://apify.com/seaf999ield/uk-companies-house-feed) |
-| [UK public tenders](docs/uk-public-tenders-feed.md) | Find a Tender, Contracts Finder, optional TED | [uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed) |
-| [FCA short positions](docs/uk-fca-short-positions.md) | Short interest and change alerts | [uk-fca-short-positions](https://apify.com/seaf999ield/uk-fca-short-positions) |
-| [Gazette insolvency notices](docs/uk-gazette-insolvency-notices.md) | Winding-up petitions, administrations, liquidations | [uk-gazette-insolvency-notices](https://apify.com/seaf999ield/uk-gazette-insolvency-notices) |
-| [Visa sponsor register](docs/uk-visa-sponsor-register-monitor.md) | New, removed and downgraded sponsors | [uk-visa-sponsor-register-monitor](https://apify.com/seaf999ield/uk-visa-sponsor-register-monitor) |
-| [Food hygiene ratings](docs/uk-food-hygiene-ratings.md) | FHRS search and new-restaurant leads | [uk-food-hygiene-ratings](https://apify.com/seaf999ield/uk-food-hygiene-ratings) |
-| [Product safety recalls](docs/uk-product-safety-recalls.md) | OPSS, FSA and MHRA alerts | [uk-product-safety-recalls](https://apify.com/seaf999ield/uk-product-safety-recalls) |
-| [Political donations](docs/uk-political-donations.md) | Electoral Commission donations and loans | [uk-political-donations](https://apify.com/seaf999ield/uk-political-donations) |
-| [Google Trends UK](docs/uk-google-trends.md) | Interest, regions and related queries | [uk-google-trends](https://apify.com/seaf999ield/uk-google-trends) |
-| [BNPL checker](docs/uk-bnpl-merchant-detector.md) | Klarna, Clearpay and PayPal Pay in 3 | [uk-bnpl-merchant-detector](https://apify.com/seaf999ield/uk-bnpl-merchant-detector) |
+| [UK Companies House feed](docs/uk-companies-house-feed.md) | New companies by SIC and region, plus status alerts | [uk-companies-house-feed](https://imrawtrader.beehiiv.com/p/data) |
+| [UK public tenders](docs/uk-public-tenders-feed.md) | Find a Tender, Contracts Finder, optional TED | [uk-public-tenders-feed](https://imrawtrader.beehiiv.com/p/data) |
+| [FCA short positions](docs/uk-fca-short-positions.md) | Short interest and change alerts | [uk-fca-short-positions](https://imrawtrader.beehiiv.com/p/data) |
+| [Gazette insolvency notices](docs/uk-gazette-insolvency-notices.md) | Winding-up petitions, administrations, liquidations | [uk-gazette-insolvency-notices](https://imrawtrader.beehiiv.com/p/data) |
+| [Visa sponsor register](docs/uk-visa-sponsor-register-monitor.md) | New, removed and downgraded sponsors | [uk-visa-sponsor-register-monitor](https://imrawtrader.beehiiv.com/p/data) |
+| [Food hygiene ratings](docs/uk-food-hygiene-ratings.md) | FHRS search and new-restaurant leads | [uk-food-hygiene-ratings](https://imrawtrader.beehiiv.com/p/data) |
+| [Product safety recalls](docs/uk-product-safety-recalls.md) | OPSS, FSA and MHRA alerts | [uk-product-safety-recalls](https://imrawtrader.beehiiv.com/p/data) |
+| [Political donations](docs/uk-political-donations.md) | Electoral Commission donations and loans | [uk-political-donations](https://imrawtrader.beehiiv.com/p/data) |
+| [Google Trends UK](docs/uk-google-trends.md) | Interest, regions and related queries | [uk-google-trends](https://imrawtrader.beehiiv.com/p/data) |
+| [BNPL checker](docs/uk-bnpl-merchant-detector.md) | Klarna, Clearpay and PayPal Pay in 3 | [uk-bnpl-merchant-detector](https://imrawtrader.beehiiv.com/p/data) |
 
 ## Develop
 

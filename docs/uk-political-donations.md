@@ -2,7 +2,7 @@
 
 > UK political donations & loans API from the Electoral Commission register: filter by party, donor, date and value; monitor new donations.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-political-donations](https://apify.com/seaf999ield/uk-political-donations) · **Price:** $2 per 1,000 donation or loan records (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $2 per 1,000 donation or loan records (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -38,7 +38,7 @@ UK political donations and loans from the Electoral Commission register: filter 
 | Conservative and Unionist Party | Flowidea Limited | Company | 250000 | 2026-06-11 |
 | Labour Party | Unite the Union | Trade Union | 217625 | 2026-05-01 |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-political-donations).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -46,7 +46,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-political-donations").call(run_input={'mode': 'search', 'kind': 'donations', 'daysBack': 180, 'entityTypes': ['pp'], 'donorTypes': ['Company'], 'minValue': 50000})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-political-donations").call(run_input={'mode': 'search', 'kind': 'donations', 'daysBack': 180, 'entityTypes': ['pp'], 'donorTypes': ['Company'], 'minValue': 50000})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

@@ -2,7 +2,7 @@
 
 > UK product recall API: OPSS product recalls, FSA food and allergy alerts, MHRA drug and device alerts in one feed. Filter, or monitor new alerts.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-product-safety-recalls](https://apify.com/seaf999ield/uk-product-safety-recalls) · **Price:** $2 per 1,000 alerts; $8 per 1,000 new-alert detections (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $2 per 1,000 alerts; $8 per 1,000 new-alert detections (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -22,7 +22,7 @@ One UK recall and safety-alert feed: OPSS product recalls (toys, baby, electrica
 | opss | 2026-10-13 | toys | Toddler Ghost Costume | strangulation and asphyxiation | serious |
 | opss | 2026-10-13 | baby | Baby Electric Soothing Palm Sleep Pillow | asphyxiation | serious |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-product-safety-recalls).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -30,7 +30,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-product-safety-recalls").call(run_input={})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-product-safety-recalls").call(run_input={})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

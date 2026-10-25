@@ -2,7 +2,7 @@
 
 > UK insolvency API from The Gazette: winding-up petitions, administrations and liquidations with company number, IP and postcode. Daily monitor.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-gazette-insolvency-notices](https://apify.com/seaf999ield/uk-gazette-insolvency-notices) · **Price:** $3 per 1,000 notices; $10 per 1,000 new-notice alerts (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $3 per 1,000 notices; $10 per 1,000 new-notice alerts (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -21,7 +21,7 @@ Daily UK insolvency notices from The Gazette: winding-up petitions and orders, a
 | Winding-up petition | MY BUILDER GROUP LTD | 13059359 | 2026-10-20 | HA9 6PL |
 | Winding-up order | COURIER SOLUTIONS EDINBURGH LIMITED | SC660367 | 2026-10-20 | DD1 4QB |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-gazette-insolvency-notices).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -29,7 +29,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-gazette-insolvency-notices").call(run_input={})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-gazette-insolvency-notices").call(run_input={})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

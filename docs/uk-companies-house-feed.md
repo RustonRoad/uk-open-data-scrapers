@@ -2,7 +2,7 @@
 
 > Companies House API feed: daily new UK company incorporations by SIC code, region & postcode, plus liquidation and dissolution alerts. B2B leads.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-companies-house-feed](https://apify.com/seaf999ield/uk-companies-house-feed) · **Price:** $3 per 1,000 company records; $10 per 1,000 status-change alerts (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $3 per 1,000 company records; $10 per 1,000 status-change alerts (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -43,7 +43,7 @@ Daily feed of new UK company incorporations from the official Companies House AP
 | SC906275 | MCDONALD DELIVERY LTD | 2026-10-19 | 49410 | ML1 4BY | Scotland |
 | 17527340 | LARD ETC LTD | 2026-10-19 | 56101 | OX1 2HP | South East |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-companies-house-feed).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -51,7 +51,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-companies-house-feed").call(run_input={'mode': 'new_companies', 'daysBack': 1, 'sicCodes': ['62012', '62020', '62090'], 'regions': ['London', 'South East'], 'maxResults': 500})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-companies-house-feed").call(run_input={'mode': 'new_companies', 'daysBack': 1, 'sicCodes': ['62012', '62020', '62090'], 'regions': ['London', 'South East'], 'maxResults': 500})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```

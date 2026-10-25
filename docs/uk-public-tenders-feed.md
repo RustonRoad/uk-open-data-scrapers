@@ -2,7 +2,7 @@
 
 > UK tenders API: new Find a Tender & Contracts Finder notices, contract awards and EU TED. Filter by keyword, CPV, value, region. Daily bid leads.
 
-**Run it on Apify:** [https://apify.com/seaf999ield/uk-public-tenders-feed](https://apify.com/seaf999ield/uk-public-tenders-feed) · **Price:** $3 per 1,000 tender or award notices (USD, pay per result, no subscription)
+**Hosted versions:** see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data) · **Price:** $3 per 1,000 tender or award notices (USD, pay per result, no subscription)
 
 ## Use case
 
@@ -41,7 +41,7 @@ New UK public-sector tenders and contract awards from Find a Tender and Contract
 | Find a Tender | Estate Agency Services for Herefordshire Council's Commerci… | Herefordshire Council | 450000 | 2026-10-26 | – |
 | Contracts Finder | 021352 - Videography for the Knowsley Business Awards | Knowsley Council | 52725 | 2026-09-03 | 79416200, 79952000 |
 
-Full field list, input options and FAQ: see the actor page on the [Apify Store](https://apify.com/seaf999ield/uk-public-tenders-feed).
+Full field list, input options and FAQ: see the [RawTrader UK data tools page](https://imrawtrader.beehiiv.com/p/data).
 
 ## Run it from Python
 
@@ -49,7 +49,8 @@ Full field list, input options and FAQ: see the actor page on the [Apify Store](
 from apify_client import ApifyClient
 
 client = ApifyClient("YOUR_APIFY_TOKEN")  # from https://console.apify.com/settings/integrations
-run = client.actor("seaf999ield/uk-public-tenders-feed").call(run_input={'daysBack': 3, 'keywords': ['software', 'digital', 'cloud', 'data', 'IT'], 'matchTitleOnly': True, 'onlyOpen': True, 'noticeTypes': ['tender']})
+# Actor id: see the RawTrader UK data tools page https://imrawtrader.beehiiv.com/p/data
+run = client.actor("uk-public-tenders-feed").call(run_input={'daysBack': 3, 'keywords': ['software', 'digital', 'cloud', 'data', 'IT'], 'matchTitleOnly': True, 'onlyOpen': True, 'noticeTypes': ['tender']})
 for item in client.dataset(run["defaultDatasetId"]).iterate_items():
     print(item)
 ```
